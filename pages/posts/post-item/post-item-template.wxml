@@ -1,0 +1,17 @@
+<template name="postItem">
+  <view class='post-container'>
+    <view class='post-author-box'>
+      <image class='head-img' src='{{headImg}}'></image>
+      <text class='head-text'>{{headText}}</text>
+    </view>
+    <text class='post-title'>{{postTitle}}</text>
+    <image class='post-images' src='{{postImages}}'></image>
+    <text class='post-content'>{{postContent}}</text>
+    <view class='post-like'>
+      <image class='post-like-images' src='/images/icon/discuss.png'></image>
+      <text class='post-like-font'>{{postLikeDiscuss}}</text>
+      <image class='post-like-images' src='/images/icon/focus.png'></image>
+      <text class='post-like-font'>{{postLikeFocus}}</text>
+    </view>
+  </view>
+</template>

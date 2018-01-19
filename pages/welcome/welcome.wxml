@@ -1,0 +1,7 @@
+<view class='contant'>
+  <image class='user-img' src="/images/head/head01.jpg"></image>
+  <text class='user-name'>hello, MytLoy</text>
+  <view class='btn-box' bindtap='onTap'>
+    <text class='btn-text'>开启小程序之旅</text>
+  </view>
+</view>
