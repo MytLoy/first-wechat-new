@@ -1,6 +1,12 @@
  <import src="../stars/stars-template.wxml" /> 
 <template name="movieTemplate">
-  <view class='movie-container'>
+  <view
+   class='movie-container'
+   catchtap="onNewsTap"
+   data-news-id="{{id}}"
+   data-new-content="{{content}}"
+   data-new-img="{{newImage}}"
+   data-all-title="{{allTitle}}">
     <image class='movie-img' src='{{newImage}}'></image>
     <text class='movie-title'>{{newTitle}}</text>
      <template is="startsTemplate" data="{{stars:star, score: num}}"/> 

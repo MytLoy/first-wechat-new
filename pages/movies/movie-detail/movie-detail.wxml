@@ -1,0 +1,6 @@
+<view>
+  <text>详情</text>
+  <text>{{title}}</text>
+  <image src='{{img}}'></image>
+  <rich-text type="node">{{content}}</rich-text>
+</view>

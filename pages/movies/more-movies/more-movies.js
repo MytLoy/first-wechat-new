@@ -5,6 +5,9 @@ Page({
   data: {
     BarTitle: '',
     news: null,
+    requestUrl: null,
+    totalCount: null,
+    isEmpty: true,
   },
 
   // onload 初始化不应该操作ui
@@ -14,6 +17,7 @@ Page({
       BarTitle: options.category,
     });
     var url = 'https://way.jd.com/jisuapi/get?appkey=857050353b6724ea86cd9b3539f0e408&channel=' + this.data.BarTitle;
+    this.data.requestUrl = url;
     // 请求数据
     util.http(url, this.processNewData);
   },
@@ -26,14 +30,14 @@ Page({
   },
 
   // 处理数据
-  processNewData:function(res){
+  processNewData: function (res) {
     var news = [];
     var dataList = res.result.result.list;
     for (var i = 0; i < dataList.length; i++) {
       // 标题
       var title = dataList[i].title;
-      if (title.length > 13) {
-        title = dataList[i].title.substring(0, 13) + '...';
+      if (title.length > 6) {
+        title = dataList[i].title.substring(0, 6) + '...';
       }
       // 图片
       var image = dataList[i].pic;
@@ -52,10 +56,39 @@ Page({
       }
       news.push(a);
     }
+
+    var totalNews = {};
+    //如果要绑定新加载的数据，那么需要同旧有的数据合并在一起
+    if (!this.data.isEmpty) {
+      totalNews = this.data.news.concat(news);
+    } else {
+      totalNews = news;
+      this.data.isEmpty = false;
+    }
     this.setData({
-      news: news,
+      news: totalNews,
     });
-    console.log(news);
+    this.data.totalCount += 10;
+    wx.hideNavigationBarLoading();
+    wx.stopPullDownRefresh();
+  },
+
+  // 下滑加载更多
+  onScrollLower: function (event) {
+    var nextUrl = this.data.requestUrl + "&start=" + this.data.totalCount + "&num=10";
+    util.http(nextUrl, this.processNewData);
+    wx.showNavigationBarLoading();
+  },
+
+  // 下拉组件自动调用
+  onPullDownRefresh: function (event) {
+    var refreshUrl = this.data.requestUrl + "&star=0&num=10";
+    // 下拉需要恢复初始化
+    this.data.news = {};
+    this.data.isEmpty = true;
+    this.data.totalCount = 0;
+    util.http(refreshUrl, this.processNewData);
+    wx.showNavigationBarLoading();
   },
 
 })

@@ -6,33 +6,34 @@ Page({
     headLine: {},
     science: {},
     Finance: {},
+    searchResult: {},
+    containerShow: true, // 三种新闻栏目
+    searchPanelShow: false, // 搜索页面
   },
 
   onLoad: function (event) {
-    var headLineChannel = '头条';
-    var scienceChannel = '科技';
-    var FinanceChannel = '财经';
+    var jisuapi = 'https://way.jd.com/jisuapi/get?num=3&channel=';
+    var headLineUrl = jisuapi + '头条';
+    var scienceUrl = jisuapi + '科技';
+    var FinanceUrl = jisuapi + '财经';
 
-    this.getNewListsData(headLineChannel, "headLine", '头条');
-    this.getNewListsData(scienceChannel, "science", '科技');
-    this.getNewListsData(FinanceChannel, "Finance", '财经');
+    this.getNewListsData(headLineUrl, "headLine", '头条');
+    this.getNewListsData(scienceUrl, "science", '科技');
+    this.getNewListsData(FinanceUrl, "Finance", '财经');
 
   },
 
   // 请求数据
-  getNewListsData: function (channel, settedKey, categoryTitle) {
+  getNewListsData: function (url, settedKey, categoryTitle) {
     var that = this;
     wx.request({
-      url: 'https://way.jd.com/jisuapi/get',
+      url: url,
       method: 'GET',
       header: {
         'Content-Type': '' // 默认值
       },
       data: {
         appkey: '857050353b6724ea86cd9b3539f0e408', // 申请的APPKEY
-        channel: channel, // 新闻频道
-        start: 0,
-        num: 3,
       },
       success: function (res) {
         that.processNewData(res.data.result.result, settedKey, categoryTitle);
@@ -47,8 +48,8 @@ Page({
     for (var i = 0; i < dataList.length; i++) {
       // 标题
       var title = dataList[i].title;
-      if (title.length > 13) {
-        title = dataList[i].title.substring(0, 13) + '...';
+      if (title.length > 6) {
+        title = dataList[i].title.substring(0, 6) + '...';
       }
       // 图片
       var image = dataList[i].pic;
@@ -64,6 +65,8 @@ Page({
         newTime: dataList[i].time,
         num: starNum.toFixed(1),
         star: util.convertToStarsArray(Math.floor(starNum)), // 向下取整
+        content: dataList[i].content,
+        allTitle: dataList[i].title,
       }
       news.push(a);
     }
@@ -81,6 +84,46 @@ Page({
     var category = event.currentTarget.dataset.category;
     wx.navigateTo({
       url: 'more-movies/more-movies?category=' + category,
+    });
+  },
+
+  // onBindFocus
+  onBindFocus: function (event) {
+    this.setData({
+      containerShow: false,
+      searchPanelShow: true,
+    });
+  },
+
+  // 关闭搜索
+  onCancelImgTap: function (event) {
+    this.setData({
+      containerShow: true,
+      searchPanelShow: false,
+      searchResult: {}, // 清空上次搜索内容
+    });
+  },
+
+  // 点击搜索
+  onBindBlur: function (event) {
+    var text = event.detail.value;
+    var searchUrl = "https://way.jd.com/jisuapi/newSearch?keyword=" + text;
+    this.getNewListsData(searchUrl, "searchResult", "");
+  },
+
+  // 跳转到详情页面
+  // 因为调用的免费api没有根据id查某篇新闻的接口，就先在本地存了起来
+  onNewsTap: function (event) {
+    var newsId = event.currentTarget.dataset.newsId;
+    var newsItem = {}
+    newsItem = {
+      title: event.currentTarget.dataset.allTitle,
+      img: event.currentTarget.dataset.newImg,
+      content: event.currentTarget.dataset.newContent,
+    }
+    wx.setStorageSync('newsItem', newsItem);
+    wx.navigateTo({
+      url: "movie-detail/movie-detail"
     });
   }
 
