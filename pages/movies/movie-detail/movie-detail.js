@@ -1,4 +1,5 @@
-// pages/movies/movie-detail/movie-detail.js
+var util = require('../../../utils/util.js');
+
 Page({
 
   data: {
@@ -11,8 +12,8 @@ Page({
     this.setData({
       title: newsItem.title,
       img: newsItem.img,
-      content: newsItem.content,
+      content: util.changeHtml(newsItem.content),
+      time: newsItem.time,
     });
-    console.log(newsItem);
   },
 })

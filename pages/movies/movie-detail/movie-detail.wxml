@@ -1,6 +1,8 @@
 <view>
-  <text>详情</text>
-  <text>{{title}}</text>
   <image src='{{img}}'></image>
-  <rich-text type="node">{{content}}</rich-text>
+  <view class='detail-title'>{{title}}</view>
+  <text style='margin-left: 10px'>时间：{{time}}</text>
+  <view class='detaill-content'>
+    <text>{{content}}</text>
+  </view>
 </view>

@@ -3,8 +3,8 @@
 <view>
   <swiper catchtap="onSwiperTap" indicator-dots='true' autoplay='true' interval='5000'>
     <swiper-item><image data-postId='0' src='/images/bg/bj01.jpg'></image></swiper-item>
-    <swiper-item><image data-postId='1' src='/images/bg/bj02.jpg'></image></swiper-item>
-    <swiper-item><image data-postId='2' src='/images/bg/bj03.jpg'></image></swiper-item>
+    <swiper-item><image data-postId='1' src='/images/bg/bj03.jpg'></image></swiper-item>
+    <swiper-item><image data-postId='2' src='/images/post/004.jpg'></image></swiper-item>
   </swiper>
   <block wx:for="{{listData}}" wx:key="item.value">
     <!-- data- :自定义绑定数据 只有连字符后面的第一个字母会变成大写，其他的全部默认转换为小写 -->

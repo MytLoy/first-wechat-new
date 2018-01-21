@@ -54,7 +54,7 @@ Page({
       // 图片
       var image = dataList[i].pic;
       if (!image) {
-        image = '/images/bg/bj01.jpg';
+        image = '/images/post/004.jpg';
       }
       // 随机生成星星分数 向下取整
       var starNum = Math.random() * 5;
@@ -114,12 +114,12 @@ Page({
   // 跳转到详情页面
   // 因为调用的免费api没有根据id查某篇新闻的接口，就先在本地存了起来
   onNewsTap: function (event) {
-    var newsId = event.currentTarget.dataset.newsId;
-    var newsItem = {}
+    var newsItem = {};
     newsItem = {
       title: event.currentTarget.dataset.allTitle,
       img: event.currentTarget.dataset.newImg,
       content: event.currentTarget.dataset.newContent,
+      time: event.currentTarget.dataset.newsTime,
     }
     wx.setStorageSync('newsItem', newsItem);
     wx.navigateTo({

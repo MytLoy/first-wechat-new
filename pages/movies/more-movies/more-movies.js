@@ -12,7 +12,6 @@ Page({
 
   // onload 初始化不应该操作ui
   onLoad: function (options) {
-    console.log(options.category);
     this.setData({
       BarTitle: options.category,
     });

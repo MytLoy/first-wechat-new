@@ -119,7 +119,6 @@ Page({
       itemList: itemList,
       itemColor: '#405f80',
       success: function (res) {
-        console.log(res);
         wx.showModal({
           title: '用户分享到' + itemList[res.tapIndex],
           content: "用户是否取消？" +  "现在无法实现分享功能，什么时候能支持呢",

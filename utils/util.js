@@ -30,7 +30,17 @@ function http(url, callBack) {
   });
 }
 
+// 转换html格式
+function changeHtml(html) {
+  var ph = /<[^>]*>|<\/[^>]*>/gm;
+  var text = '\n';
+  var result = '';
+  result = html.replace(ph, text);
+  return result;
+}
+
 module.exports = {
   convertToStarsArray: convertToStarsArray,
   http: http,
+  changeHtml: changeHtml,
 }
