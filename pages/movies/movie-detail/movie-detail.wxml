@@ -1,5 +1,5 @@
 <view>
-  <image src='{{img}}'></image>
+  <image class='detail-img' src='{{img}}'></image>
   <view class='detail-title'>{{title}}</view>
   <text style='margin-left: 10px'>时间：{{time}}</text>
   <view class='detaill-content'>

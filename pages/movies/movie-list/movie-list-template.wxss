@@ -26,6 +26,7 @@
 }
 
 .more-text {
+  font-size: 14px;
   vertical-align: middle;
   margin-right: 10rpx;
   color: #1f4ba5;

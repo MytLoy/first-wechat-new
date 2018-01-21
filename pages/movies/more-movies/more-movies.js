@@ -52,6 +52,8 @@ Page({
         newTime: dataList[i].time,
         num: starNum.toFixed(1),
         star: util.convertToStarsArray(Math.floor(starNum)), // 向下取整
+        content: dataList[i].content,
+        allTitle: dataList[i].title,
       }
       news.push(a);
     }
@@ -89,5 +91,21 @@ Page({
     util.http(refreshUrl, this.processNewData);
     wx.showNavigationBarLoading();
   },
+
+  // 跳转到详情页面
+  // 因为调用的免费api没有根据id查某篇新闻的接口，就先在本地存了起来
+  onNewsTap: function (event) {
+    var newsItem = {};
+    newsItem = {
+      title: event.currentTarget.dataset.allTitle,
+      img: event.currentTarget.dataset.newImg,
+      content: event.currentTarget.dataset.newContent,
+      time: event.currentTarget.dataset.newsTime,
+    }
+    wx.setStorageSync('newsItem', newsItem);
+    wx.navigateTo({
+      url: "../movie-detail/movie-detail"
+    });
+  }
 
 })
