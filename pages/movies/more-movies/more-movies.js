@@ -75,7 +75,15 @@ Page({
   },
 
   // 下滑加载更多
-  onScrollLower: function (event) {
+  // 下拉刷新和scroll-view不可以同时使用
+  // onScrollLower: function (event) {
+  //   var nextUrl = this.data.requestUrl + "&start=" + this.data.totalCount + "&num=10";
+  //   util.http(nextUrl, this.processNewData);
+  //   wx.showNavigationBarLoading();
+  // },
+
+  // 实现下滑加载以及下拉刷新
+  onReachBottom: function (event) {
     var nextUrl = this.data.requestUrl + "&start=" + this.data.totalCount + "&num=10";
     util.http(nextUrl, this.processNewData);
     wx.showNavigationBarLoading();
