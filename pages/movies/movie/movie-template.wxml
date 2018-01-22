@@ -8,7 +8,7 @@
    data-new-img="{{newImage}}"
    data-all-title="{{allTitle}}"
    data-news-time="{{newTime}}">
-    <image class='movie-img' src='{{newImage}}'></image>
+    <image class='movie-img' src='{{newImage}}' mode='aspectFill'></image>
     <text class='movie-title'>{{newTitle}}</text>
      <template is="startsTemplate" data="{{stars:star, score: num}}"/> 
   </view>

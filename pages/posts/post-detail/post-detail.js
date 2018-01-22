@@ -4,6 +4,7 @@ var app = getApp();
 Page({
   data: {
     isPlayingMusic: false,
+    collected: false,
   },
   // 初始化函数
   onLoad: function (options) {
@@ -18,10 +19,15 @@ Page({
     // 缓存 是否收藏
     var postsCollected = wx.getStorageSync('posts_collected');
     if (postsCollected) {
-      var postCollected = postsCollected[postId];
-      this.setData({
-        collected: postCollected,
-      });
+      if (postsCollected[postId]) {
+        var postCollected = postsCollected[postId];
+        this.setData({
+          collected: postCollected,
+        });
+      } else {
+        postsCollected[postId] = false;
+        wx.setStorageSync('posts_collected', postsCollected);
+      }
     } else {
       var postsCollected = {};
       postsCollected[postId] = false;
@@ -42,28 +48,48 @@ Page({
   // 监听音乐
   setMusicMonitor:function(){
     var that = this;
+
+    // 播放音乐
     wx.onBackgroundAudioPlay(function () {
-      that.setData({
-        isPlayingMusic: true,
-      });
+      var pages = getCurrentPages(); // 获取当前页面
+      var currentPage = pages[pages.length - 1];
+      // 打开多个post-detail页面后，每个页面不会关闭，只会隐藏。
+      // 通过页面栈拿到到当前页面的postid，只处理当前页面的音乐播放。
+      if (currentPage.data.currentPostId === that.data.currentPostId){
+        if (app.globalData.g_currentMusicPostId == that.data.currentPostId){
+          that.setData({
+            isPlayingMusic: true,
+          });
+        }
+      }
       app.globalData.g_isPlayingMusic = true;
-      app.globalData.g_currentMusicPostId = that.data.currentPostId;      
+      // app.globalData.g_currentMusicPostId = that.data.currentPostId;
     });
+
+    // 暂停播放
     wx.onBackgroundAudioPause(function () {
-      that.setData({
-        isPlayingMusic: false,
-      });
+      var pages = getCurrentPages();
+      var currentPage = pages[pages.length - 1];
+      if (currentPage.data.currentPostId === that.data.currentPostId) {
+        if (app.globalData.g_currentMusicPostId == that.data.currentPostId) {
+          that.setData({
+            isPlayingMusic: false,
+          });
+        }
+      }
       app.globalData.g_isPlayingMusic = false;
-      app.globalData.g_currentMusicPostId = null;   
+      // app.globalData.g_currentMusicPostId = null;
     });
+
     // 音乐播放结束恢复成未播放
     wx.onBackgroundAudioStop(function () {
       that.setData({
         isPlayingMusic: false
       })
       app.globalData.g_isPlayingMusic = false;
-      app.globalData.g_currentMusicPostId = null;
+      // app.globalData.g_currentMusicPostId = null;
     });
+
   },
 
   onCollectTap: function (event) {
@@ -127,7 +153,7 @@ Page({
     });
   },
 
-  // 音乐
+  // 点击音乐图标
   onMusicTap:function(event){
     var isPlayingMusic = this.data.isPlayingMusic;
     var currentPostId = this.data.currentPostId;
@@ -137,6 +163,7 @@ Page({
       this.setData({
         isPlayingMusic: false,
       });
+      app.globalData.g_isPlayingMusic = false;
     } else {
       wx.playBackgroundAudio({
         dataUrl: postData[currentPostId].music.url,
@@ -146,6 +173,8 @@ Page({
       this.setData({
         isPlayingMusic: true,
       });
+      app.globalData.g_currentMusicPostId = this.data.currentPostId;
+      app.globalData.g_isPlayingMusic = true;
     }
     
   },

@@ -8,9 +8,9 @@
     placeholder='科技、吴晓波'
     placeholder-class="placeholder"
     bindfocus="onBindFocus"
-    bindblur="onBindBlur"
+    bindconfirm="onBindBlur"
     ></input>
-    <image wx:if="{{searchPanelShow}}" src="/images/icon/xx.png" class="xx-img" bindtap="onCancelImgTap"></image>
+    <image wx:if="{{searchPanelShow}}" src="/images/icon/xx.png" class="xx-img" catchtap="onCancelImgTap"></image>
 </view>
 <view class='container' wx:if="{{containerShow}}">
   <view class='movies-template'>
