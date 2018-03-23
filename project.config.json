@@ -9,7 +9,6 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "1.9.1",
-	"appid": "wx015dc86e4f06beef",
 	"projectname": "Wechat",
 	"condition": {
 		"search": {
