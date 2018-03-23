@@ -19,3 +19,4 @@ https://wx.jcloud.com/market/datas/31/11073
 var ph = /<[^>]*>|<\/[^>]*>/gm;
 
 如果比较复杂的话，可以引用GitHub上别人家提供的微信小程序富文本解析组件：wxParse
+欢迎star
